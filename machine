@@ -1,0 +1,12 @@
+   // TODO code application logic here
+        float a = 9.05f;
+        int bits_int = Float.floatToIntBits(a);
+        int sign = bits_int>>31;
+        //flip the sign
+        int new_sign = sign ^1;
+        int exponent = (bits_int >>23)<<1;
+        String bits = Integer.toBinaryString(bits_int);
+        
+        System.out.println(bits);
+        System.out.println(sign+ "  "+ new_sign);
+        System.out.println(Integer.toBinaryString(exponent));
