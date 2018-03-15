@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define int_len sizeof(int)
+#define NUMBITS sizeof(int)
 int reverse_binary(int num);
 
 int main() {
@@ -19,7 +19,7 @@ int main() {
 int reverse_binary(int num)
 {
     int mask=1;
-    for (int i=0; i< int_len; i++)
+    for (int i=0; i< NUMBITS; i++)
     {
         if((mask & num) ==0 )
          printf("%d",0);
