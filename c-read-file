@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+bool ReadCsvFile(char* filePath)
+{
+    char data[100];
+    FILE *fp=fopen(filePath,"r");
+    if(!fp)
+    {
+        printf("can't open file\n");
+        return false;
+    }
+    while(!feof(fp))
+    {
+        fscanf(fp,"%s",&data);
+        printf("%s",data);
+        printf("\n");
+    }
+    printf("\n");
+    fclose(fp);
+    return true;
+}
+
+int main()
+{
+    ReadCsvFile("D:\\MyCppProject\\weather.nominal.csv");
+    return 0;
