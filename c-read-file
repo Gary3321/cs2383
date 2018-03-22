@@ -26,3 +26,24 @@ int main()
 {
     ReadCsvFile("D:\\MyCppProject\\weather.nominal.csv");
     return 0;
+
+////////////////////////////////////////
+#include <stdio.h>  
+#pragma warning(disable:4996)  
+#include <stdlib.h>    
+  
+  
+int main()  
+{  
+    char str[] = "我,是,中国,程序员";  
+    char *ptr;  
+    char *p;  
+    printf("开始前:  str=%s\n", str);  
+    printf("开始分割:\n");  
+    ptr = strtok(str, ",");  
+    while (ptr != NULL) {  
+        printf("ptr=%s\n", ptr);  
+        ptr = strtok(NULL, ",");  
+    }  
+    getchar();  
+}  
