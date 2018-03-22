@@ -1,0 +1,70 @@
+//compiled with /UNICODE  
+#define _CRT_SECURE_NO_WARNINGS  
+#include <stdio.h>  
+#include <RLib_Import.h>  
+  
+#if _DEBUG  
+#pragma comment(lib, "RLib_d.lib")  
+#else  
+#pragma comment(lib, "RLib.lib")  
+#endif // _DEBUG  
+  
+using namespace System;  
+  
+//-------------------------------------------------------------------------  
+  
+static Timer timer; //Timer是对高精度计时API QueryPerformanceCounter 的简单封装  
+  
+//-------------------------------------------------------------------------  
+  
+static void show_benchmark_result(double interval, const String &prefix = Nothing)  
+{  
+    GlobalizeString u_prefix(prefix + _T("运行耗时:") + String().Format(_T("%f"),  
+         interval * 1000) + _T("ms") RLIB_NEWLINE);  
+    printf(u_prefix.toGBK());  
+}  
+  
+//-------------------------------------------------------------------------  
+  
+#define SAMPLE_COUNT 1024 //采样次数  
+void test1()  
+{  
+}  
+  
+//-------------------------------------------------------------------------  
+  
+void test_wrapper(RLIB_TYPE(test1) *test_t, const String &test_name)  
+{  
+    printf(RLIB_NEWLINEA);  
+  
+    double intervals[SAMPLE_COUNT];  
+    for (int i = 0; i < RLIB_COUNTOF(intervals); ++i) {  
+        timer.BeginTimer();  
+        test_t();  
+        timer.EndTimer();   
+        intervals[i] = timer.GetDoubleTimeSpan();  
+  
+        //show_benchmark_result(intervals[i]);  
+    } //for  
+  
+    double imin = intervals[0], imax = intervals[0];  
+    for (int i = 1; i < RLIB_COUNTOF(intervals); ++i) {  
+        intervals[0] += intervals[i];  
+        imax = max(imax, intervals[i]);  
+        imin = min(imin, intervals[i]);  
+    }  
+    show_benchmark_result(imin, _T("最小"));  
+    show_benchmark_result(imax, _T("最大"));  
+    show_benchmark_result((intervals[0] - imax - imin) / (RLIB_COUNTOF(intervals) - 2),  
+                          test_name + _T(" 平均"));  
+}  
+  
+//-------------------------------------------------------------------------  
+  
+int _tmain(int argc, _TCHAR* argv[])  
+{  
+    test_wrapper(test1, _T("测试例名"));  
+    printf(RLIB_NEWLINEA);  
+    system("pause");  
+    return argc;  
+}  
