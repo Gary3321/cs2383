@@ -32,3 +32,4 @@ int main() {
        return 0;
     }
  
+https://www.geeksforgeeks.org/dynamic-programming-set-8-matrix-chain-multiplication/
