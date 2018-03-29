@@ -1,36 +1,31 @@
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
-int main() {   
-
-       static const char filename[] = "test.txt";
-	
-
-       FILE *file = fopen ( filename, "r" );
-       if ( file != NULL )
-       {
-          char line [ 128 ]; /* or other suitable maximum line size */
-          while ( fgets ( line, sizeof line, file ) != NULL ) /* read a line */
-          {
-             //fputs ( line, stdout ); /* write the line */
-	     printf("%s", line);
-	     char* token = strtok(line, " ");
-	     while(token)
-		{
-		  puts(token);
-		  token=strtok(NULL," ");
-		}  
-
-          }
-          fclose ( file );
-       }
-       else
-       {
-          perror ( filename ); /* why didn't the file open? */
-       }
-       return 0;
+bool ReadFile(char* filePath)
+{
+	// lines with labels must have them in the first column.
+    // lines without labels must have a blank in the first column.
+    char data[1000];
+    FILE *fp=fopen(filePath,"r");
+    if(!fp)
+    {
+        printf("can't open file\n");
+        return false;
     }
- 
-https://www.geeksforgeeks.org/dynamic-programming-set-8-matrix-chain-multiplication/
-https://www.youtube.com/watch?v=GMzVeWpyTN0
+
+    while ((fgets(data,1000,fp))!=NULL)
+	{
+		if(strlen(data)!=1) //don't read empty line,empty line also read "\n". 
+			printf("%s",data);
+	}
+    fclose(fp);
+    return true;
+}
+
+int main()
+{
+    ReadFile("1.txt");
+    return 0;
+}
